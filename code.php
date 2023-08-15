@@ -1,6 +1,7 @@
-<?php 
+<?php
+// Helper page: accept a student code and set it in the session
+// then redirect to `modifierEtudiant.php` for editing.
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,39 +15,35 @@ session_start();
 
 
 <?php
+// When the form is submitted, validate the code and store it in the session
+// then redirect the user to the editor page.
 try {
-  if(isset($_GET['valider'])){
-    if(!empty($_GET['code'])){ 
-        $code=$_GET['code'];
-        require_once 'connexion.php';
-        $sql=$pdo->query('select codeEtudiant from etudiant where codeEtudiant='.$code);
-        $result=$sql->fetch();
-        if(!empty($result)){
-          
-         $_SESSION['code']=$code;
-          
-          
-           header('location: modifierEtudiant.php');
-        }else{?> 
-         
-         <div class="alert alert-danger" role="alert">etudiant non trouver</div>
-        
-        <?php }
-       
-    }
-    else{
+  if (isset($_GET['valider'])) {
+    if (!empty($_GET['code'])) {
+      $code = $_GET['code'];
+      require_once 'connexion.php';
+      $sql = $pdo->query('select codeEtudiant from etudiant where codeEtudiant=' . $code);
+      $result = $sql->fetch();
+      if (!empty($result)) {
+        $_SESSION['code'] = $code;
+        header('location: modifierEtudiant.php');
+        exit();
+      } else {
         ?>
-        <div class="alert alert-danger" role="alert">donner le code de l'etudiant à modifier</div>
+        <div class="alert alert-danger" role="alert">Student not found</div>
         <?php
+      }
+    } else {
+      ?>
+      <div class="alert alert-danger" role="alert">Please provide the student code to edit</div>
+      <?php
     }
-   
   }
-   
-           
-} catch(PDOException $e) {
-    die($e->getMessage());
+
+} catch (PDOException $e) {
+  die($e->getMessage());
 }
-   
+
 ?>
 
 <div class="container ">
