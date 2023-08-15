@@ -8,36 +8,27 @@
 <body>
      
   <?php
+  // Include navigation and handle book creation form submission
   require_once 'nav.php';
-  if(isset($_POST['ajouter'])){
-    if( !empty($_POST['titre']) && !empty($_POST['auteur']) && !empty($_POST['edition'])){
-                    
-                    $titre=htmlspecialchars($_POST['titre']);
-                    $auteur=htmlspecialchars($_POST['auteur']);
-                    $edition=htmlspecialchars($_POST['edition']);
+  if (isset($_POST['ajouter'])) {
+      if (!empty($_POST['titre']) && !empty($_POST['auteur']) && !empty($_POST['edition'])) {
+          $titre = htmlspecialchars($_POST['titre']);
+          $auteur = htmlspecialchars($_POST['auteur']);
+          $edition = htmlspecialchars($_POST['edition']);
 
-
-                    require_once 'connexion.php';
-                   
-                   
-                    $pdo->beginTransaction();
-                    $sql=$pdo->prepare('INSERT INTO livre(titre,auteur,dateEdition) values (?,?,?) ');
-                    $sql->execute([$titre,$auteur,$edition]);
-                    $pdo->commit();
-                 
-                    ?>
-                    
-                    <div class="alert alert-success" role="alert"> livre <?php echo $titre ?> est bien ajouter </div>
-                    
-                    <?php
-    }else{
-      ?>
-                    
-                    <div class="alert alert-danger" role="alert">  veillez saisir tous les champs </div>
-                    
-                    <?php
-    }
-
+          require_once 'connexion.php';
+          $pdo->beginTransaction();
+          $sql = $pdo->prepare('INSERT INTO livre(titre,auteur,dateEdition) values (?,?,?) ');
+          $sql->execute([$titre, $auteur, $edition]);
+          $pdo->commit();
+          ?>
+          <div class="alert alert-success" role="alert">Book <?php echo $titre ?> successfully added</div>
+          <?php
+      } else {
+          ?>
+          <div class="alert alert-danger" role="alert">Please fill in all fields</div>
+          <?php
+      }
   }
   ?>
 
