@@ -9,48 +9,58 @@
 <body>
 
 <?php require_once 'nav.php'?>
-<?php 
+<?php
+// Handle the "add student" form submission.
+// - Validate required fields
+// - Sanitize input
+// - Check for duplicate student code
+// - Insert new student into the `etudiant` table inside a transaction
 try {
- 
-    if(isset($_POST['ajouter'])){
-      if (empty($_POST['code']) || empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['adresse']) || empty($_POST['classe'])) { 
-        ?>
-           <div class="alert alert-danger" role="alert">tous les champs sont obligatoires</div>
-        <?php
-        }else{
-           $code=htmlspecialchars($_POST['code']);
-           $nom=htmlspecialchars($_POST['nom']);
-           $prenom=htmlspecialchars($_POST['prenom']);
-           $adresse=htmlspecialchars($_POST['adresse']);
-           $classe=htmlspecialchars($_POST['classe']);
-           
-           require_once 'connexion.php';
-           $requete=$pdo->query('select codeEtudiant from etudiant where codeEtudiant='.$code);
-           $trouver=$requete->fetch();
-           if(empty($trouver)){
-           $pdo->beginTransaction();
-           $sql=$pdo->prepare('INSERT INTO etudiant values(?,?,?,?,?)');
-           $sql->execute([$code,$nom,$prenom,$adresse,$classe]);
-           $pdo->commit();
-          
-          ?>
-             <div class="alert alert-success " role="alert">etudiant numero'<?php echo $code; ?>' est bien ajouter</div>
-          <?php
-           }
-          else{
-            ?>
-             <div class="alert alert-danger " role="alert">etudiant numero'<?php echo $code; ?>' existe deja </div>
-            <?php
-          }}}
+  if (isset($_POST['ajouter'])) {
+    // Basic required-field validation
+    if (empty($_POST['code']) || empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['adresse']) || empty($_POST['classe'])) {
+      ?>
+      <div class="alert alert-danger" role="alert">All fields are required</div>
+      <?php
+    } else {
+      // Sanitize incoming values to avoid XSS when echoed back
+      $code = htmlspecialchars($_POST['code']);
+      $nom = htmlspecialchars($_POST['nom']);
+      $prenom = htmlspecialchars($_POST['prenom']);
+      $adresse = htmlspecialchars($_POST['adresse']);
+      $classe = htmlspecialchars($_POST['classe']);
 
-          ?>
-          <a href='listeEtudiants.php'><button>afficher</button></a>
-          <?php
-           
-}
- catch(PDOException $e) {
-    die($e->getMessage());
-    $pdo->rollBack();
+      // Connect to database and check for existing student code
+      require_once 'connexion.php';
+      $requete = $pdo->query('select codeEtudiant from etudiant where codeEtudiant=' . $code);
+      $trouver = $requete->fetch();
+
+      if (empty($trouver)) {
+        // Insert new student inside a transaction
+        $pdo->beginTransaction();
+        $sql = $pdo->prepare('INSERT INTO etudiant values(?,?,?,?,?)');
+        $sql->execute([$code, $nom, $prenom, $adresse, $classe]);
+        $pdo->commit();
+        ?>
+        <div class="alert alert-success" role="alert">Student number <?php echo $code; ?> successfully added</div>
+        <?php
+      } else {
+        // Duplicate code: inform the user
+        ?>
+        <div class="alert alert-danger" role="alert">Student number <?php echo $code; ?> already exists</div>
+        <?php
+      }
+    }
+  }
+
+  ?>
+  <a href='listeEtudiants.php'><button>show list</button></a>
+  <?php
+
+} catch (PDOException $e) {
+  // On error, display message and rollback any open transaction
+  $pdo->rollBack();
+  die($e->getMessage());
 }
 ?>
 
