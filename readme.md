@@ -1,50 +1,54 @@
-# TP  : Gestion d'une Bibliothèque avec PHP et MySQL
+# Practical Work: Library Management System with PHP & MySQL
 
-Ce projet est un travail pratique (TP 8) visant à appréhender la manipulation des bases de données MySQL à travers des formulaires PHP et la gestion du CRUD (Create, Read, Update, Delete).
-
----
-
-## 🎯 Objectifs
-
-- Apprendre la manipulation des bases de données relationnelles avec MySQL.
-- Interagir avec la base de données à l'aide de formulaires PHP interactifs.
-- Mettre en place un système complet de gestion pour les étudiants et les livres.
+This repository contains a practical academic lab (TP 8) designed to practice relational database manipulation using MySQL and PHP interactive forms to perform complete CRUD operations (Create, Read, Update, Delete).
 
 ---
 
-## 🛠️ Structure & Contenu du TP
+## 🎯 Objectives
 
-### 1. Création et Configuration de la Base de Données
-- **`biblio.sql`** : Script SQL contenant le DDL pour la création des tables basées sur le modèle MCD.
-- **Importation** : Base de données `biblio` exécutée et gérée via phpMyAdmin.
-
-### 2. Connexion & Déconnexion
-- **`connexion.php`** : Script établissant la connexion avec le serveur de base de données MySQL.
-- **`deconnexion.php`** : Script permettant d'assurer la fermeture propre de la session et de la connexion.
-
-### 3. Gestion des Étudiants (`Gestion des étudiants`)
-Un menu d'indexation permet de naviguer à travers les fonctionnalités suivantes :
-- **Insertion** :
-  - `nouveauEtudiant.php` : Formulaire de saisie des informations d'un nouvel étudiant.
-  - `nouveauEtud_action.php` : Script d'insertion des données récupérées dans la table `Etudiant`.
-- **Sélection / Recherche** :
-  - `listeEtudiants.php` : Affichage dynamique de la liste complète des étudiants.
-  - `recherheEtud.php` : Formulaire de recherche par critère.
-  - `rechercheEtud_action.php` : Traitement et affichage des résultats selon le critère choisi.
-- **Modification** :
-  - `modifierEudiant.php` : Vérification de l'existence de l'étudiant (redirection ou message « *Etudiant introuvable !* »).
-  - `modifierEudiant_Form.php` : Formulaire pré-rempli pour mettre à jour les données.
-- **Suppression** :
-  - `supprimerEudiant.php` : Formulaire de demande de suppression par identifiant/code.
-  - `supprimerEtud_action.php` : Traitement de la suppression dans la base de données.
-
-### 4. Gestion des Livres (`Gestion des Livres`)
-- Mise en œuvre des fonctionnalités équivalentes (Insertion, Affichage, Recherche, Modification, Suppression) dédiées à la gestion des livres.
+- Learn relational database management using MySQL.
+- Interact with the database through PHP web forms.
+- Build a full management system for students and books.
 
 ---
 
-## 💻 Prérequis & Installation
+## 🛠️ Project Structure & Architecture
 
-1. Clonez ce dépôt dans le répertoire web de votre serveur local (ex. `htdocs` pour XAMPP ou `www` pour WampServer) :
+### 1. Database Creation & Configuration
+- **`biblio.sql`**: SQL DDL script to generate database tables based on the MCD conceptual schema.
+- **Import**: Database named `biblio` hosted and managed via phpMyAdmin.
+
+### 2. Connection Management
+- **`connexion.php`**: Script handling connection establishment with the MySQL server.
+- **`deconnexion.php`**: Script handling clean session teardown and database disconnection.
+
+### 3. Student Management Module (`Gestion des étudiants`)
+A main navigation menu indexes the following functional pages:
+- **Insertion**:
+  - `nouveauEtudiant.php`: Input form to register a new student.
+  - `nouveauEtud_action.php`: Server-side processing script inserting data into the `Etudiant` table.
+- **Selection & Search**:
+  - `listeEtudiants.php`: Dynamic view displaying the complete student roster.
+  - `recherheEtud.php`: Filtered search form.
+  - `rechercheEtud_action.php`: Query handler returning search results based on selected criteria.
+- **Modification**:
+  - `modifierEudiant.php`: Checks student existence (redirects to form or displays *"Etudiant introuvable !*").
+  - `modifierEudiant_Form.php`: Pre-filled update form for editing record details.
+- **Deletion**:
+  - `supprimerEudiant.php`: Student deletion lookup form by ID/code.
+  - `supprimerEtud_action.php`: Handles record deletion in the database.
+
+### 4. Book Management Module (`Gestion des Livres`)
+- Mirror implementation of full CRUD operations (Insertion, Listing, Search, Update, Deletion) dedicated to managing book inventory.
+
+---
+
+## 💻 Prerequisites & Setup
+
+1. Clone this repository into your local web server root directory (e.g., `htdocs` for XAMPP or `www` for WampServer):
    ```bash
    git clone [https://github.com/zinebni/ista_php-book-store.git](https://github.com/zinebni/ista_php-book-store.git)
+    ```
+2. Import the `biblio.sql` file into your MySQL database using phpMyAdmin or any MySQL client.
+3. Ensure your PHP environment is running (e.g., start Apache and MySQL services in XAMPP/WampServer).
+4. Access the application via your web browser at `http://localhost/ista_php-book-store`.
