@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php
+// Simple login page for library users (students)
+// Verifies student code and name, then stores them in session on success.
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,28 +12,29 @@
     <title>Document</title>
 </head>
 <body>
-<?php require_once 'nav.php';
-if(isset($_POST['login'])){
-    if(!empty($_POST['code']) && !empty($_POST['nom'])){
-        $code=htmlspecialchars($_POST['code']);
-        $nom=htmlspecialchars($_POST['nom']);
+<?php
+require_once 'nav.php';
+// Process login form submission
+if (isset($_POST['login'])) {
+    if (!empty($_POST['code']) && !empty($_POST['nom'])) {
+        $code = htmlspecialchars($_POST['code']);
+        $nom = htmlspecialchars($_POST['nom']);
 
         require_once 'connexion.php';
 
-        $sql=$pdo->query("select * from etudiant where codeEtudiant=".$code." and nom like'%".$nom."%'");
-
-        $result=$sql->FETCH();
-        if(!empty($result)){
-            $_SESSION['codeE']=$code;
-            $_SESSION['nomE']=$nom;
-           
-            echo 'bonjour';
-        }else{
-            echo 'vous etes pas inscrie au biblio';
+        // Find a matching student by code and (approximate) name
+        $sql = $pdo->query("select * from etudiant where codeEtudiant=" . $code . " and nom like'%" . $nom . "%'");
+        $result = $sql->FETCH();
+        if (!empty($result)) {
+            // Store logged-in student data in session
+            $_SESSION['codeE'] = $code;
+            $_SESSION['nomE'] = $nom;
+            echo 'hello';
+        } else {
+            echo 'You are not registered in the library';
         }
     }
 }
-
 
 ?>
 <div class="container ">
