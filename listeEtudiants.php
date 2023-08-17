@@ -8,9 +8,12 @@
 </head>
 <body>
 
-    <?php require_once 'nav.php'?>
+    <?php
+    // Include navigation and show page header
+    require_once 'nav.php';
+    ?>
 
-<div class='container'><h1 class="display-3">la liste des etudiants</h1> </div>
+<div class='container'><h1 class="display-3">Student list</h1> </div>
 <div class='container'>
  <table class="table">
       
@@ -27,10 +30,11 @@
 
 <?php   
     
+    // Fetch all students from the database and display them in a table
     require_once 'connexion.php';
-    $sql=$pdo->query('SELECT * FROM etudiant');
+    $sql = $pdo->query('SELECT * FROM etudiant');
     $sql->execute();
-    $etudiants=$sql->fetchAll(PDO::FETCH_OBJ);
+    $etudiants = $sql->fetchAll(PDO::FETCH_OBJ);
    
  
 ?>
