@@ -8,14 +8,15 @@
 <body>
 
 
-<?php require_once 'nav.php';
-      if( $_GET['cherche']!=""){
-         require_once 'connexion.php';
-         $sql=$pdo->query("select * from etudiant where codeEtudiant like '".$_GET['cherche']."'or nom like'%".$_GET['cherche']."%'");
-         $etudiants=$sql->FETCHALL(PDO::FETCH_OBJ);
-
-      }
-      
+<?php
+// Student search results page - used by the navigation search form
+require_once 'nav.php';
+if (!empty($_GET['cherche'])) {
+   require_once 'connexion.php';
+   // Search by code or name (basic LIKE search)
+   $sql = $pdo->query("select * from etudiant where codeEtudiant like '" . $_GET['cherche'] . "' or nom like '%" . $_GET['cherche'] . "%'");
+   $etudiants = $sql->FETCHALL(PDO::FETCH_OBJ);
+}
 ?>
 
 <div class='container'>
