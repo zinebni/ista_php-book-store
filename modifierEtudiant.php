@@ -1,13 +1,15 @@
 <?php
+// Edit student page
+// - Expects a student code stored in `$_SESSION['code']` (set by code.php)
+// - Loads current student data and displays a form to modify the record
 session_start();
- require_once 'nav.php';
- 
- //afficher les info initiales 
- require_once 'connexion.php';
+require_once 'nav.php';
 
- $sql=$pdo->query('select * from etudiant where codeEtudiant ='.$_SESSION['code']);
- $etudiant=$sql->fetch(PDO::FETCH_ASSOC);
- ?>
+// Load current student information to pre-fill the form
+require_once 'connexion.php';
+$sql = $pdo->query('select * from etudiant where codeEtudiant =' . $_SESSION['code']);
+$etudiant = $sql->fetch(PDO::FETCH_ASSOC);
+?>
 
 
 <!DOCTYPE html>
@@ -60,31 +62,30 @@ session_start();
 <?php
 
 
-//modifier les infos 
-try{ if(isset($_POST['modifier'])){
-  $code=htmlspecialchars($_POST['code']);
-  $nom=htmlspecialchars($_POST['nom']);
-  $prenom=htmlspecialchars($_POST['prenom']);
-  $adresse=htmlspecialchars($_POST['adresse']);
-  $classe=htmlspecialchars($_POST['classe']);
-  
-  $pdo->beginTransaction();
- 
-  $modify=$pdo->prepare("UPDATE  etudiant SET  codeEtudiant= ?, nom=?, prenom=?, adresse=? , classe=? WHERE codeEtudiant=".$_SESSION['code']);
-  $modify->execute([$code,$nom,$prenom,$adresse,$classe]);
+// Handle form submission to update student record
+try {
+  if (isset($_POST['modifier'])) {
+    $code = htmlspecialchars($_POST['code']);
+    $nom = htmlspecialchars($_POST['nom']);
+    $prenom = htmlspecialchars($_POST['prenom']);
+    $adresse = htmlspecialchars($_POST['adresse']);
+    $classe = htmlspecialchars($_POST['classe']);
 
+    $pdo->beginTransaction();
 
+    // Update the student row identified by the original session code
+    $modify = $pdo->prepare("UPDATE etudiant SET codeEtudiant= ?, nom=?, prenom=?, adresse=? , classe=? WHERE codeEtudiant=" . $_SESSION['code']);
+    $modify->execute([$code, $nom, $prenom, $adresse, $classe]);
 
-  $pdo->commit();
-  ?>
-      <div class='alert alert-success' role='alert'>les donnée sont modifiés avec succé</div>
-  
-  <?php
- 
- }
-}catch(PDOException $e){
-  die('erreur dans la modification des données:'.$e->getMessage());
+    $pdo->commit();
+    ?>
+    <div class='alert alert-success' role='alert'>The data was updated successfully</div>
+    <?php
+  }
+} catch (PDOException $e) {
+  // Rollback on error and show message
   $pdo->rollBack();
+  die('error updating data: ' . $e->getMessage());
 }
   
 ?>   
