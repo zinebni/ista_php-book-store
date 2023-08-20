@@ -7,7 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <?php require_once 'nav.php' ?>
+    <?php
+    // Include navigation partial and render search form for students
+    require_once 'nav.php';
+    ?>
 <div class="container">
    <form method="GET">
        <div class="mb-3">
@@ -31,32 +34,31 @@
 
 </div>
 
- <?php
-    if(isset($_GET['rechercher']) && !empty($_GET['valeur'])){
-       
-        $critere=$_GET['critere'];
-        switch( $critere){
+<?php
+    // Handle student selection/search. Build a simple query based on chosen criterion.
+    if (isset($_GET['rechercher']) && !empty($_GET['valeur'])) {
+        $critere = $_GET['critere'];
+        switch ($critere) {
             case '1':
-                $requete="select * from etudiant where codeEtudiant like ".$_GET['valeur'];
+                $requete = "select * from etudiant where codeEtudiant like " . $_GET['valeur'];
                 break;
-            case'2' :
-                $requete="select * from etudiant where nom like '%".$_GET['valeur']."%'";
+            case '2':
+                $requete = "select * from etudiant where nom like '%" . $_GET['valeur'] . "%'";
                 break;
-            case'3' :
-                $requete="select * from etudiant where prenom like '%".$_GET['valeur']."%'";
+            case '3':
+                $requete = "select * from etudiant where prenom like '%" . $_GET['valeur'] . "%'";
                 break;
             case '4':
-                $requete="select * from etudiant where adresse like '%".$_GET['valeur']."%'";
+                $requete = "select * from etudiant where adresse like '%" . $_GET['valeur'] . "%'";
                 break;
             case '5':
-                $requete="select * from etudiant where classe like '%".$_GET['valeur']."%'";
+                $requete = "select * from etudiant where classe like '%" . $_GET['valeur'] . "%'";
                 break;
-
         }
-       
+
         require_once 'connexion.php';
-        $sql=$pdo->query($requete);
-        $etudiants=$sql->FETCHALL(PDO::FETCH_OBJ);
+        $sql = $pdo->query($requete);
+        $etudiants = $sql->FETCHALL(PDO::FETCH_OBJ);
         ?>
           <div class='container'>
  <table class="table">
