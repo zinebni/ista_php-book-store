@@ -9,45 +9,39 @@
 <body>
 
 
-<?php 
+<?php
+// Include navigation and handle deletion of a student by code.
 require_once 'nav.php';
 try {
-  if(isset($_GET['valider'])){
-    if(!empty($_GET['code'])){ 
-        $code=$_GET['code'];
-        require_once 'connexion.php';
-        $sql=$pdo->query('select codeEtudiant from etudiant where codeEtudiant='.$code);
-        $result=$sql->fetch();
-        if(!empty($result)){
-          
-            $sql=$pdo->prepare('DELETE FROM etudiant where codeEtudiant=?');
-            $sql->execute([$code]);
-
-            ?>
-            <div class="alert alert-success" role="alert">etudiant numero<?php $code ?>est bien supprimer</div>
-            <?php
-           
-         
-        }else{?> 
-         
-         <div class="alert alert-danger" role="alert">etudiant non trouver</div>
-        
-        <?php }
-       
-    }
-    else{
+  if (isset($_GET['valider'])) {
+    if (!empty($_GET['code'])) {
+      $code = $_GET['code'];
+      require_once 'connexion.php';
+      // Check if the student exists
+      $sql = $pdo->query('select codeEtudiant from etudiant where codeEtudiant=' . $code);
+      $result = $sql->fetch();
+      if (!empty($result)) {
+        // Delete the student record
+        $sql = $pdo->prepare('DELETE FROM etudiant where codeEtudiant=?');
+        $sql->execute([$code]);
         ?>
-        <div class="alert alert-danger" role="alert">donner le code de l'etudiant à supprimer</div>
+        <div class="alert alert-success" role="alert">Student number <?php echo $code ?> was deleted</div>
         <?php
+      } else {
+        ?>
+        <div class="alert alert-danger" role="alert">Student not found</div>
+        <?php
+      }
+    } else {
+      ?>
+      <div class="alert alert-danger" role="alert">Please provide the student code to delete</div>
+      <?php
     }
-   
   }
-   
-           
-} catch(PDOException $e) {
-    die($e->getMessage());
+
+} catch (PDOException $e) {
+  die($e->getMessage());
 }
-   
 ?>
 
 <div class="container ">
