@@ -8,15 +8,14 @@
 </head>
 <body>
 <?php
-    require_once 'nav.php';
-?>
-<div class='container'><h1 class="display-3">la liste des etudiants</h1> </div>
-    <?php
+    // Include navigation and retrieve list of books from the database
     require_once 'nav.php';
     require_once 'connexion.php';
-    $sql=$pdo->query('select * from livre');
-    $livres=$sql->fetchall(PDO::FETCH_ASSOC);
-    ?>
+    $sql = $pdo->query('select * from livre');
+    $livres = $sql->fetchall(PDO::FETCH_ASSOC);
+?>
+
+<div class='container'><h1 class="display-3">Book list</h1> </div>
 
 <div class='container'>
     <table>
