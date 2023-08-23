@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-<!--login-->
+<!-- Navigation partial: top menus for authentication, students, books, and loans -->
+<!-- login link -->
 <nav class="navbar navbar-dark bg-dark">
 <div class="container-fluid">
    
@@ -16,7 +17,7 @@
     
 </div>    
 </nav>
-<!--nav d'etudiant-->
+<!-- Student management navigation -->
    <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">gestion des etudiants</a>
@@ -45,7 +46,7 @@
 
         
       </ul>
-      <!--bare de recherche-->
+      <!-- search bar for student lookup -->
       <form class="d-flex" methode="get" action="rechercheEtudiant.php">
        
         <input name='cherche' class="form-control me-2" type="search" placeholder="rechercher"  aria-label="Search">
@@ -109,12 +110,11 @@
       </ul>
     </div>
   </div>
-   </nav>
+  </nav>
 
-   
-   
-<!---------------------------------------------------------------------------------------------------->   
-<!--nav de emprunt-->
+
+<!---------------------------------------------------------------------------------------------------->
+<!-- Loan management navigation -->
    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
    <div class="container-fluid">
     <a class="navbar-brand" href="#">gestion des emprunts</a>
