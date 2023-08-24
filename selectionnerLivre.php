@@ -8,7 +8,10 @@
 </head>
 <body>
   
-<?php require_once 'nav.php' ?>
+<?php
+// Include navigation and render a form to search/select books
+require_once 'nav.php';
+?>
 <div class="container">
    <form method="GET">
       
@@ -34,33 +37,29 @@
 </div>
 
 <?php
- if(isset($_GET['rechercher']) && !empty($_GET['valeur'])){
-  $critere=$_GET['critere'];
-  $valeur=$_GET['valeur'];
-  
-  switch($critere){
-    case '1':
-        $requete='select * from livre where codeLivre='.$valeur;
-        break;
-    
-    case'2':
-        $requete="select * from livre where titre like '%".$valeur."%'";
-        break;
+// Handle book search based on selected criterion and display results
+if (isset($_GET['rechercher']) && !empty($_GET['valeur'])) {
+   $critere = $_GET['critere'];
+   $valeur = $_GET['valeur'];
 
-    case'3':
-            $requete="select * from livre where auteur like '%".$valeur."%'";
-            break;
+   switch ($critere) {
+      case '1':
+         $requete = 'select * from livre where codeLivre=' . $valeur;
+         break;
+      case '2':
+         $requete = "select * from livre where titre like '%" . $valeur . "%'";
+         break;
+      case '3':
+         $requete = "select * from livre where auteur like '%" . $valeur . "%'";
+         break;
+      case '4':
+         $requete = "select * from livre where dateEdition like '%" . $valeur . "%'";
+         break;
+   }
 
-    case'4':
-            
-            $requete="select * from livre where dateEdition like '%".$valeur."%'";
-            break;
-    
-}
-
-require_once 'connexion.php';
-$sql=$pdo->query($requete);
-$livres=$sql->fetchAll(PDO::FETCH_ASSOC);
+   require_once 'connexion.php';
+   $sql = $pdo->query($requete);
+   $livres = $sql->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 
