@@ -7,19 +7,16 @@
 </head>
 <body>
     <?php
-        require_once 'nav.php';
-        
-            if(!empty($_GET['cherche'])){
-                $ch=$_GET['cherche'];
-                require_once 'connexion.php';
-                $sql=$pdo->query("select * from livre where codeLivre=".$ch);
-                $livres=$sql->fetchAll(PDO::FETCH_ASSOC);
-            }
-        
-
-    
+    // Book search results - called from the nav search form
+    require_once 'nav.php';
+    if (!empty($_GET['cherche'])) {
+        $ch = $_GET['cherche'];
+        require_once 'connexion.php';
+        // Search for a book by its numeric code
+        $sql = $pdo->query("select * from livre where codeLivre=" . $ch);
+        $livres = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
     ?>
-
     <div class="container">
         <table>
             <thead>
